@@ -1,0 +1,10 @@
+{{ salt['pillar.get']('file', '# This file is managed by Salt') }}
+ONBOOT={{ onboot }}
+NM_CONTROLLED=yes
+BOOTPROTO={{ bootproto }}
+DEVICE={{ device }}
+TYPE={{ type }}
+HWADDR={{ mac }}
+
+# Only needed if using NetworkManager
+# UUID=143b6962-4277-4b35-bf85-907b4f178b55

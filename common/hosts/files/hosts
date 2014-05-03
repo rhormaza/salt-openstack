@@ -1,0 +1,25 @@
+{{ salt['pillar.get']('file', '#\n#File managed by Salt!\n#') }}
+{% set err_msg_fmt = '%s. Please check pillar variables' -%}
+{% set err_msg_01 = err_msg_fmt|format('IP_NOT_FOUND') -%}
+{% set err_msg_02 = err_msg_fmt|format('IF_NOT_FOUND') -%}
+{% set err_msg_03 = err_msg_fmt|format('FQDN_NOT_FOUND') -%}
+{% set hosts_dict = salt['pillar.get']('hosts', {}) -%}
+
+#
+# /etc/hosts: static lookup table for host names
+#
+
+#<ip-address>	<hostname.domain.org>	<hostname>
+127.0.0.1	localhost.localdomain	localhost
+::1		localhost.localdomain	localhost
+
+# End of file
+
+# IP hostname fqdn
+{% for host, host_info in hosts_dict|dictsort -%}
+{% set ip_key = 'hosts:%s:if:%s:ip'|format(host, host_info.get('if_to_host_file', err_msg_02)) -%}
+{% set ip = salt['pillar.get'](ip_key, err_msg_01) -%}
+{% set alias_key = 'hosts:%s:if:%s:alias'|format(host, host_info.get('if_to_host_file', err_msg_02)) -%}
+{% set alias = salt['pillar.get'](alias_key, [''])|join(' ') -%}
+{{ ip }} {{ host }} {{ host }}.{{ salt['pillar.get']('fqdn', err_msg_03) }} {{ alias }}
+{% endfor -%}

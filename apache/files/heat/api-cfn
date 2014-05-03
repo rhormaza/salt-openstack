@@ -1,0 +1,18 @@
+# vim: tabstop=4 shiftwidth=4 softtabstop=4
+
+from heat.openstack.common import gettextutils
+gettextutils.install('heat')
+
+from heat.openstack.common import log as logging
+from heat.common import config
+from paste import deploy
+
+logging.setup('heat')
+
+config_files = ['/etc/heat/heat-registry-paste.ini', '/etc/heat/heat-registry.conf']
+conf = config_files[0]
+name = 'heat-api-cfn'
+
+config.parse_args(default_config_files=config_files)
+
+application = deploy.loadapp('config:%s' % conf, name=name)

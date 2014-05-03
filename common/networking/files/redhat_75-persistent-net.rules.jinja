@@ -1,0 +1,8 @@
+{{ salt['pillar.get']('file', '# This file is managed by Salt') }}
+{% set current_host = salt['grains.get']('host', '__NOT_FOUND__') -%}
+{% set current_host_if_ref = 'hosts:%s:if'|format(current_host) -%}  
+{% set interfaces_dict = salt['pillar.get'](current_host_if_ref, {}) -%}
+{% for if_name, if_info in interfaces_dict|dictsort -%}
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="{{ if_info.get('mac') }}", ATTR{type}=="1", KERNEL=="eth*", NAME="{{ if_name }}"
+
+{% endfor -%}

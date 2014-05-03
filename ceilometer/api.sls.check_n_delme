@@ -1,0 +1,35 @@
+{% set FILE_PATH = salt['pillar.get']('formula_rootfs', 'NOT_FOUND') %}
+{% set ceilometer_cnf_dir = '/etc/ceilometer' %}
+{% set ceilometer_log_dir = '/var/log/ceilometer' %}
+{% set ceilometer_user = 'ceilometer' %}
+{% set ceilometer_group = 'ceilometer' %}
+{% set service_name = 'ceilometer' %}
+
+ceilometer-pkgs:
+  pkg.installed:
+    - names:
+      - openstack-ceilometer-api 
+      - python-ceilometerclient
+
+{{ ceilometer_cnf_dir }}:
+  file.recurse:
+    - source: {{ FILE_PATH }}/ceilometer/files/etc
+    - template: jinja
+    - user: {{ ceilometer_user }}
+    - group: {{ ceilometer_group }}
+    - require:
+      - pkg: ceilometer-pkgs
+
+ceilometer-services:
+  service:
+    - running
+    - enable: True
+    - names:
+      - openstack-ceilometer-api
+    - require:
+      - pkg: ceilometer-pkgs
+    - watch:
+      - cmd: ceilometer-manage
+      - file: {{ ceilometer_cnf_dir }}
+include:
+  - openstack.keystone.keystonerc_admin

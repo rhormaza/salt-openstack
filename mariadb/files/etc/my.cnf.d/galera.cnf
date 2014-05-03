@@ -1,0 +1,40 @@
+# TODO(raul): This needs more work!
+[mysqld]
+query_cache_size=0
+binlog_format=ROW
+default_storage_engine=innodb
+innodb_autoinc_lock_mode=2
+# innodb_doublewrite=1 - this is the default and it should stay this way
+
+#datadir=/mnt/mysql/data
+innodb_buffer_pool_size=1024M
+innodb_log_file_size=256M
+innodb_file_per_table
+innodb_additional_mem_pool_size = 32M
+innodb_log_buffer_size = 8M
+innodb_flush_method = O_DIRECT
+innodb_flush_log_at_trx_commit = 0
+
+#wsrep_provider=/usr/lib64/galera/libgalera_smm.so
+##wsrep_provider_options="gcache.size=32G" # optimization here!
+## FIXME(raul): put this in pillar!
+#wsrep_cluster_address=gcomm://lxapp5136n01,lxapp5136n02
+#wsrep_cluster_name='zenoss_galera_cluster'
+#wsrep_node_address={{ salt['grains.get']('id', 'NOT_FOUND') }}
+#wsrep_node_name={{ salt['grains.get']('id', 'NOT_FOUND') }}
+##wsrep_sst_method=xtrabackup
+#wsrep_sst_method=rsync
+##wsrep_sst_auth=root:rootpa$$
+#wsrep_retry_autocommit = 0
+#
+### 4. additional "frequently used" wsrep settings
+##wsrep_node_incoming_address='192.168.10.2'
+##wsrep_sst_donor='node3'
+##wsrep_slave_threads=16
+
+
+[mysql]
+max_allowed_packet = 64M
+
+[mysqldump]
+max_allowed_packet = 64M

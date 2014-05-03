@@ -1,0 +1,5 @@
+export OS_USERNAME={{ salt['pillar.get']('keystone:admin_user') }}
+export OS_TENANT_NAME={{ salt['pillar.get']('keystone:admin_tenant') }}
+export OS_PASSWORD={{ salt['pillar.get']('keystone:admin_pass') }}
+export OS_AUTH_URL={{ salt['pillar.get']('keystone:endpoint') }}
+export PS1='[\u@\h \W(keystone_admin)]\$ '

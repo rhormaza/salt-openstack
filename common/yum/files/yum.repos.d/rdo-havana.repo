@@ -1,0 +1,7 @@
+[openstack-havana]
+name=OpenStack Havana Repository
+baseurl=http://osvm01/pulp/repos/repos/openstack/openstack-havana/epel-6/
+enabled=0
+skip_if_unavailable=0
+gpgcheck=0
+priority=97

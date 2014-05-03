@@ -1,0 +1,5 @@
+[nginx]
+name=nginx repo
+baseurl=http://osvm01/pulp/repos/packages/centos/6/$basearch/
+gpgpcheck=0
+enabled=0

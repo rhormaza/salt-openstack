@@ -1,0 +1,18 @@
+# vim: tabstop=4 shiftwidth=4 softtabstop=4
+
+from glance.openstack.common import gettextutils
+gettextutils.install('glance')
+
+from glance.openstack.common import log as logging
+from glance.common import config
+from paste import deploy
+
+logging.setup('glance')
+
+config_files = ['/etc/glance/glance-api-paste.ini', '/etc/glance/glance-api.conf']
+conf = config_files[0]
+name = 'glance-api-keystone'
+
+config.parse_args(default_config_files=config_files)
+
+application = deploy.loadapp('config:%s' % conf, name=name)

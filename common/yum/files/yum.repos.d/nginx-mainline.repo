@@ -1,0 +1,5 @@
+[nginx-mainline]
+name=nginx mainline repo
+baseurl=http://osvm01/pulp/repos/packages/mainline/centos/6/$basearch/
+gpgpcheck=0
+enabled=1

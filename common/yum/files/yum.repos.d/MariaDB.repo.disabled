@@ -1,0 +1,11 @@
+# MariaDB 5.5 CentOS repository list - created 2014-04-19 02:34 UTC
+# http://mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://osvm01/pulp/repos/5.5/centos6-amd64
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MariaDB
+gpgcheck=0
+enabled=0
+# Note(raul): Give a lower priority than OpenStack repo, as they package
+# MariaDB and galera as well.
+#priority=10

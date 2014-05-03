@@ -1,0 +1,26 @@
+{% set state_dir = 'salt://zenoss/datastore/galera' %}
+
+galera-pkgs:
+  pkg.installed:
+    - names:
+      - galera
+      - MySQL-server
+    - sources:
+      - galera: {{ state_dir }}/files/rpms/galera-25.3.2-1.rhel5.x86_64.rpm 
+      - MySQL-server: {{ state_dir }}/files/rpms/MySQL-server-5.5.34_wsrep_25.9-1.rhel5.x86_64.rpm 
+    - skip_verify: True
+
+mysql_install_db:
+  cmd.run:
+    - name: mysql_install_db --user=mysql --datadir=/var/lib/mysql
+    - unless: test -f /var/lib/mysql/mysql/host.frm && test -f /var/lib/mysql/mysql/user.frm
+    - require:
+      - pkg: galera-pkgs
+
+/etc/my.cnf:
+  file.managed:
+    - source: {{ state_dir }}/files/my.cnf
+    - template: jinja
+    - require:
+      - pkg: galera-pkgs
+
