@@ -16,6 +16,10 @@ nova-pkgs:
 
 {{ nova_cnf_dir }}:
   file.recurse:
+    # TODO(raul): Find out if there is a better way to reference sources
+    # For instance:
+    # - source: salt://.files/{{ OS_VER }}...
+    # - source: file/{{ OS_VER }}...
     - source: {{ FILE_PATH }}/nova/files/{{ OS_VER }}{{ nova_cnf_dir }}
     - template: jinja
     - user: {{ nova_user }}
